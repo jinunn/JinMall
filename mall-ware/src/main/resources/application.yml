@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://127.0.0.1:3306/mall_sms?serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/mall_pms?serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
@@ -10,5 +10,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
 server:
-  port: 6000
+  port: 10000
