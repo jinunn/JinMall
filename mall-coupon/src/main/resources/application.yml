@@ -6,6 +6,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: mall-coupon
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.110.138.50:8848
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

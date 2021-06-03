@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import com.jinunn.common.utils.R;
  * @email 372138750@qq.com
  * @date 2021-06-03 00:17:31
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/categorybounds")
 public class CategoryBoundsController {
