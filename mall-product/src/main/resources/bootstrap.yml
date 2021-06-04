@@ -3,3 +3,5 @@ spring:
     nacos:
       discovery:
         server-addr: 47.110.138.50:8848
+      config:
+        server-addr: 47.110.138.50:8848
