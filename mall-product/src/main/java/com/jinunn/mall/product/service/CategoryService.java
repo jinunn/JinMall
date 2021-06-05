@@ -23,5 +23,7 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return 查询所有商品列表,以树形结构的方式显示
      */
     List<CategoryEntity> getListWallTree();
+
+    void removeMenuByIds(Long id);
 }
 

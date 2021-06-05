@@ -15,3 +15,7 @@ mybatis-plus:
 
 server:
   port: 9000
+#日志
+logging:
+  level:
+    com.jinunn.mall: debug

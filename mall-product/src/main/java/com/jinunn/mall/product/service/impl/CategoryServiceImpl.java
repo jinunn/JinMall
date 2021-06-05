@@ -47,6 +47,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void removeMenuByIds(Long id) {
+        //TODO 菜单是否被引用
+        baseMapper.deleteById(id);
+    }
+
     /**
      *  递归查询所有菜单的子菜单, 传递参数：查询出的当前菜单和所有菜单数据。
      */

@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jinunn.mall.product.entity.CategoryEntity;
 import com.jinunn.mall.product.service.CategoryService;
@@ -74,10 +70,9 @@ public class CategoryController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+    @DeleteMapping("/delete/{id}")
+    public R delete(@PathVariable("id") Long id){
+		categoryService.removeMenuByIds(id);
         return R.ok();
     }
 

@@ -5,5 +5,21 @@ spring:
     nacos:
       discovery:
         server-addr: 47.110.138.50:8848
+    gateway:
+      routes:
+        #商品服务
+        - id: product_route
+          uri: lb://mall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #首页
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
 server:
   port: 88
