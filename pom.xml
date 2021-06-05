@@ -24,6 +24,7 @@
         <module>mall-common</module>
         <module>renren-generator</module>
         <module>mall-gateway</module>
+        <module>mall-third-party</module>
     </modules>
 
     <properties>
