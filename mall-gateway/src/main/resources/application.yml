@@ -14,6 +14,13 @@ spring:
             - Path=/api/product/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #第三方
+        - id: third_party_routh
+          uri: lb://mall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
         #首页
         - id: admin_route
           uri: lb://renren-fast
