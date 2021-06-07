@@ -1,6 +1,8 @@
 package com.jinunn.mall.product.service.impl;
 
+import com.jinunn.mall.product.service.CategoryService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,6 +22,10 @@ import com.jinunn.mall.product.service.AttrGroupService;
 @Service("attrGroupService")
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
 
+    @Autowired
+    private CategoryService categoryService;
+
+
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long cateLogId) {
         if (cateLogId==0){
@@ -37,5 +43,13 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
                     wrapper);
             return new PageUtils(page);
         }
+    }
+
+    @Override
+    public AttrGroupEntity getAttrGroup(Long attrGroupId) {
+        AttrGroupEntity groupEntity = this.getById(attrGroupId);
+        Long[] path = categoryService.getCateLogPath(groupEntity.getCatelogId());
+        groupEntity.setCatelogPath(path);
+        return groupEntity;
     }
 }

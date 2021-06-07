@@ -2,9 +2,7 @@ package com.jinunn.mall.product.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,7 +26,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
                 new Query<CategoryEntity>().getPage(params),
-                new QueryWrapper<CategoryEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);
@@ -51,6 +49,29 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public void removeMenuByIds(Long id) {
         //TODO 菜单是否被引用
         baseMapper.deleteById(id);
+    }
+
+    @Override
+    public Long[] getCateLogPath(Long catelogId) {
+        List<Long> paths = new ArrayList<>();
+        this.findParentPath(catelogId,paths);
+        //因为迭代的数据的先从子id查询，所以是逆序的，需要转换过来。
+        Collections.reverse(paths);
+        return paths.toArray(new Long[0]);
+    }
+
+    /**
+     * 递归调用，参数：当前商品id和统一收集的容器 225/22/2一步一步循环
+     */
+    private void findParentPath(Long catelogId,List<Long> paths){
+        //1、每递归一次，收集一次当前的id
+        paths.add(catelogId);
+        //2、查询出当前分类的信息的父id
+        Long parentCid = baseMapper.selectById(catelogId).getParentCid();
+        //3、如果父id等于0，就继续递归调用。
+        if (parentCid !=0){
+            findParentPath(this.getById(catelogId).getParentCid(),paths);
+        }
     }
 
     /**
