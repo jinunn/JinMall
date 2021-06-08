@@ -1,5 +1,8 @@
 package com.jinunn.mall.product.service.impl;
 
+import com.jinunn.mall.product.service.CategoryBrandRelationService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,6 +17,7 @@ import com.jinunn.common.utils.Query;
 import com.jinunn.mall.product.dao.CategoryDao;
 import com.jinunn.mall.product.entity.CategoryEntity;
 import com.jinunn.mall.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -21,6 +25,9 @@ import com.jinunn.mall.product.service.CategoryService;
  */
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -58,6 +65,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //因为迭代的数据的先从子id查询，所以是逆序的，需要转换过来。
         Collections.reverse(paths);
         return paths.toArray(new Long[0]);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateAll(CategoryEntity category) {
+        baseMapper.updateById(category);
+        if (StringUtils.isNotBlank(category.getName())){
+            categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+        }
     }
 
     /**
