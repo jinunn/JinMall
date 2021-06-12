@@ -1,7 +1,6 @@
 package com.jinunn.mall.product.vo;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 用于显示根据分类id查询商品属性列表
