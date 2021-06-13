@@ -6,6 +6,7 @@ import com.jinunn.mall.product.entity.AttrEntity;
 import com.jinunn.mall.product.vo.AttrRespVo;
 import com.jinunn.mall.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +27,7 @@ public interface AttrService extends IService<AttrEntity> {
     AttrRespVo getAttrInfo(Long attrId);
 
     void updateAttr(AttrRespVo attr);
+
+    List<AttrEntity> attRelation(Long attrgroupId);
 }
 

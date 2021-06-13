@@ -1,8 +1,11 @@
 package com.jinunn.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.jinunn.mall.product.entity.AttrEntity;
+import com.jinunn.mall.product.service.AttrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,18 @@ import com.jinunn.common.utils.R;
 public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
+
+    @Autowired
+    private AttrService attrService;
+
+    /**
+     * 获取指定分组关联的所有属性
+     */
+    @GetMapping("{attrgroupId}/attr/relation")
+    public R attRelation(@PathVariable("attrgroupId") Long attrgroupId){
+        List<AttrEntity> data = attrService.attRelation(attrgroupId);
+        return R.ok().put("data",data);
+    }
 
     /**
      * 列表

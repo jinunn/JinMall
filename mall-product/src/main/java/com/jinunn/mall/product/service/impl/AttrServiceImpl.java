@@ -1,35 +1,39 @@
 package com.jinunn.mall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jinunn.common.constant.ProductConstant;
+import com.jinunn.common.utils.PageUtils;
+import com.jinunn.common.utils.Query;
+import com.jinunn.mall.product.dao.AttrDao;
 import com.jinunn.mall.product.entity.AttrAttrgroupRelationEntity;
+import com.jinunn.mall.product.entity.AttrEntity;
 import com.jinunn.mall.product.entity.AttrGroupEntity;
 import com.jinunn.mall.product.entity.CategoryEntity;
 import com.jinunn.mall.product.service.AttrAttrgroupRelationService;
+import com.jinunn.mall.product.service.AttrService;
 import com.jinunn.mall.product.service.CategoryService;
 import com.jinunn.mall.product.vo.AttrRespVo;
 import com.jinunn.mall.product.vo.AttrVo;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jinunn.common.utils.PageUtils;
-import com.jinunn.common.utils.Query;
 
-import com.jinunn.mall.product.dao.AttrDao;
-import com.jinunn.mall.product.entity.AttrEntity;
-import com.jinunn.mall.product.service.AttrService;
-import org.springframework.transaction.annotation.Transactional;
-
-
+/**
+ * @author JINDUN
+ */
+@Log4j2
 @Service("attrService")
 public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements AttrService {
 
@@ -159,5 +163,28 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                 attrgroupRelationService.save(relationEntity);
             }
         }
+    }
+
+    /**
+     * 获取指定分组id查询关联的所有基本属性
+     * @param attrgroupId 分组id
+     * @return 关联的所有基本属性
+     */
+    @Override
+    public List<AttrEntity> attRelation(Long attrgroupId) {
+        //1、根据属性分组id到关联表中查询所有属性分组
+        LambdaQueryWrapper<AttrAttrgroupRelationEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(AttrAttrgroupRelationEntity::getAttrGroupId,attrgroupId);
+
+        //2、得到所有属性分组，然后遍历属性分组获取到属性id去商品信息表中查信息。
+        List<Long> attrids = attrgroupRelationService.list(wrapper)
+                .stream().map(AttrAttrgroupRelationEntity::getAttrId).collect(Collectors.toList());
+
+        if (attrids.size() == 0){
+            return null;
+        }
+
+        //3、得到的属性id去商品信息表中查询
+        return this.listByIds(attrids);
     }
 }
