@@ -3,6 +3,7 @@ package com.jinunn.mall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jinunn.common.constant.ProductConstant;
 import com.jinunn.mall.product.vo.AttrRespVo;
 import com.jinunn.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +34,30 @@ public class AttrController {
     private AttrService attrService;
 
     /**
-     * 根据商品分类id,获取商品属性列表
+     * 根据商品分类id,获取商品【基本属性】列表
      */
-    @RequestMapping("/list/{catelogId}")
-    public R list(@RequestParam Map<String, Object> params,
+    @RequestMapping("base/list/{catelogId}")
+    public R getBaseList(@RequestParam Map<String, Object> params,
                   @PathVariable("catelogId") Long catelogId){
-        PageUtils page = attrService.queryBasePage(params,catelogId);
+        Integer baseCode = ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode();
+        PageUtils page = attrService.queryBasePage(params,catelogId,baseCode);
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 根据商品分类id,获取商品【销售属性】列表
+     */
+    @RequestMapping("sale/list/{catelogId}")
+    public R getSaleList(@RequestParam Map<String, Object> params,
+                  @PathVariable("catelogId") Long catelogId){
+        Integer saleCode = ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode();
+        PageUtils page = attrService.queryBasePage(params,catelogId,saleCode);
         return R.ok().put("page", page);
     }
 
 
     /**
-     * 信息
+     * 获取详情
      */
     @RequestMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId){
