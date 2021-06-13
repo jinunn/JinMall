@@ -3,6 +3,7 @@ package com.jinunn.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jinunn.common.utils.PageUtils;
 import com.jinunn.mall.product.entity.AttrEntity;
+import com.jinunn.mall.product.vo.AttrRespVo;
 import com.jinunn.mall.product.vo.AttrVo;
 
 import java.util.Map;
@@ -21,5 +22,9 @@ public interface AttrService extends IService<AttrEntity> {
     void saveAttr(AttrVo attr);
 
     PageUtils queryBasePage(Map<String, Object> params, Long catelogId);
+
+    AttrRespVo getAttrInfo(Long attrId);
+
+    void updateAttr(AttrRespVo attr);
 }
 

@@ -30,7 +30,8 @@ public class MallException {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public R mallException(){
+    public R mallException(Exception e){
+        log.error(e.getMessage(),e);
         return R.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(),BizCodeEnum.UNKNOWN_EXCEPTION.getMsg());
     }
 }
