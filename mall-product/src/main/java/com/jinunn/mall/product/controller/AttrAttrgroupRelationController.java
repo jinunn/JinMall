@@ -1,14 +1,12 @@
 package com.jinunn.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.jinunn.mall.product.entity.AttrGroupEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jinunn.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.jinunn.mall.product.service.AttrAttrgroupRelationService;
@@ -81,4 +79,13 @@ public class AttrAttrgroupRelationController {
         return R.ok();
     }
 
+
+    /**
+     * 根据分类id和分组id 删除关联表数据
+     */
+    @GetMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody List<AttrAttrgroupRelationEntity> attrGroupEntities ){
+        attrAttrgroupRelationService.deleteRelation(attrGroupEntities);
+        return R.ok();
+    }
 }
