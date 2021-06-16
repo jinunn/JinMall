@@ -29,5 +29,13 @@ public interface AttrService extends IService<AttrEntity> {
     void updateAttr(AttrRespVo attr);
 
     List<AttrEntity> attRelation(Long attrgroupId);
+
+    /**
+     * 获取本分类 属性分组里面还没有关联的其他基本属性
+     * @param params 模糊查询
+     * @param attrgroupId 分类id
+     * @return 获取本分类 属性分组里面还没有关联的其他基本属性列表
+     */
+    PageUtils getattrNoRelation(Map<String, Object> params, Long attrgroupId);
 }
 

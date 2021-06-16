@@ -187,4 +187,39 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         //3、得到的属性id去商品信息表中查询
         return this.listByIds(attrids);
     }
+
+    @Override
+    public PageUtils getattrNoRelation(Map<String, Object> params, Long attrgroupId) {
+        String key = (String) params.get("key");
+        //1、当前属性分组只能关联自己所属分类的所有属性，得到自己的三级分类的id
+        AttrEntity attrEntity = baseMapper.selectById(attrgroupId);
+        Long catelogId = attrEntity.getCatelogId();
+
+        //2、当前属性分组只能关联别的分组没有引用的属性
+        //2.1 根据分类id查询出当前分类下的所有属性分组的id。
+        List<Long> groupIds = attrGroupService
+                .list(new LambdaQueryWrapper<AttrGroupEntity>()
+                        .eq(AttrGroupEntity::getCatelogId, catelogId))
+                .stream().map(AttrGroupEntity::getAttrGroupId).collect(Collectors.toList());
+
+        //2.2 拿到【2.1步骤】查到的属性分组id去【关联表】中查询已经被这些属性分组关联的属性id。
+        List<Long> attrIds = attrgroupRelationService
+                .list(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
+                        .in(AttrAttrgroupRelationEntity::getAttrGroupId, groupIds))
+                .stream().map(AttrAttrgroupRelationEntity::getAttrId).collect(Collectors.toList());
+
+        //2.3 查询本分类下，不包含【2.2步骤】已经关联分组的属性id,得到的就是属于当前分类下并且没有被其他属性分组关联的属性。
+        LambdaQueryWrapper<AttrEntity> wrapper = new LambdaQueryWrapper<AttrEntity>()
+                .eq(AttrEntity::getCatelogId, catelogId)
+                //只需要查询基本属性
+                .eq(AttrEntity::getAttrType,ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
+        if (attrIds.size() > 0) {
+            wrapper.notIn(AttrEntity::getAttrId, attrIds);
+        }
+        if (!StringUtils.isEmpty(key)) {
+            wrapper.like(AttrEntity::getAttrName, key);
+        }
+        IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), wrapper);
+        return new PageUtils(page);
+    }
 }

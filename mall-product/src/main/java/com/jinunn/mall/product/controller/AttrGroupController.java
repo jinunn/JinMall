@@ -42,6 +42,16 @@ public class AttrGroupController {
     }
 
     /**
+     * 获取本分类 属性分组里面还没有关联的其他基本属性
+     */
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable Long attrgroupId,
+                            @RequestParam Map<String, Object> params){
+        PageUtils page =attrService.getattrNoRelation(params,attrgroupId);
+        return R.ok().put("data",page);
+    }
+
+    /**
      * 列表
      */
     @RequestMapping("/list/{cateLogId}")
