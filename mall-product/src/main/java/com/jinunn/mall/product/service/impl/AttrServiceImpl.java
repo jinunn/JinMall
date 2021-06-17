@@ -63,7 +63,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrEntity attrEntity = new AttrEntity();
         BeanUtils.copyProperties(attr,attrEntity);
         baseMapper.insert(attrEntity);
-        if (attrEntity.getAttrType().equals(ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode())){
+        if (attrEntity.getAttrType().equals(ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) && attr.getAttrGroupId()!=null){
             //2、保存关联关系
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
             relationEntity.setAttrId(attrEntity.getAttrId());

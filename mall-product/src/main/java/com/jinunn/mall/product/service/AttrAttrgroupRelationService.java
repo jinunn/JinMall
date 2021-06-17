@@ -24,5 +24,7 @@ public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRela
      * @param attrAttrgroupRelationEntities 关联表实体类
      */
     void deleteRelation(List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities);
+
+    void addRelation(List<AttrAttrgroupRelationEntity> relationEntity);
 }
 

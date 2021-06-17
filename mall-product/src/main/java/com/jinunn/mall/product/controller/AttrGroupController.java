@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.jinunn.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.jinunn.mall.product.entity.AttrEntity;
+import com.jinunn.mall.product.service.AttrAttrgroupRelationService;
 import com.jinunn.mall.product.service.AttrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,15 @@ public class AttrGroupController {
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private AttrAttrgroupRelationService attrgroupRelationService;
+
+    @PostMapping("attt/relation")
+    public R addRelation(@RequestBody List<AttrAttrgroupRelationEntity> relationEntity){
+        attrgroupRelationService.addRelation(relationEntity);
+        return R.ok();
+    }
 
     /**
      * 获取指定分组关联的所有属性

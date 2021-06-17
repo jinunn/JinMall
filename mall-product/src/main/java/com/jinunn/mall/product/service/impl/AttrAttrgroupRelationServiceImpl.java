@@ -42,4 +42,9 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
         });
     }
 
+    @Override
+    public void addRelation(List<AttrAttrgroupRelationEntity> relationEntity) {
+        this.saveBatch(relationEntity);
+    }
+
 }
