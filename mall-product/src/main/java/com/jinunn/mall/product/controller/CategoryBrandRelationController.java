@@ -3,8 +3,11 @@ package com.jinunn.mall.product.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
+import com.jinunn.mall.product.entity.BrandEntity;
+import com.jinunn.mall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,8 +87,24 @@ public class CategoryBrandRelationController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		categoryBrandRelationService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
+    }
+
+    /**
+     * 获取分类关联的品牌列表
+     * @return 品牌列表
+     */
+    @GetMapping("brands/list")
+    public R relationBrandsList(@RequestParam(value = "catId",required = true) Long catId){
+        List<BrandEntity> brandEntityList = categoryBrandRelationService.getBrandsList(catId);
+
+        List<BrandVo> brandVoList = brandEntityList.stream().map(brandEntity -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(brandEntity.getBrandId());
+            brandVo.setBranName(brandEntity.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data",brandVoList);
     }
 
 }

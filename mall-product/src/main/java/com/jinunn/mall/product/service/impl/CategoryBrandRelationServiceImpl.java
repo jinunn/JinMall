@@ -1,5 +1,6 @@
 package com.jinunn.mall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,12 +13,15 @@ import com.jinunn.mall.product.dao.CategoryDao;
 import com.jinunn.mall.product.entity.BrandEntity;
 import com.jinunn.mall.product.entity.CategoryBrandRelationEntity;
 import com.jinunn.mall.product.entity.CategoryEntity;
+import com.jinunn.mall.product.service.BrandService;
 import com.jinunn.mall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("categoryBrandRelationService")
@@ -28,6 +32,9 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Resource
     private CategoryDao categoryDao;
+
+    @Autowired
+    private BrandService brandService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -97,4 +104,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
                 .eq("brand_id",brandId));
     }
 
+    @Override
+    public List<BrandEntity> getBrandsList(Long catId) {
+        return baseMapper.selectList(new LambdaQueryWrapper<CategoryBrandRelationEntity>()
+                .eq(CategoryBrandRelationEntity::getCatelogId, catId))
+                .stream().map(categoryBrandRelationEntity ->
+                        brandService.getById(categoryBrandRelationEntity.getBrandId()))
+                .collect(Collectors.toList());
+    }
 }

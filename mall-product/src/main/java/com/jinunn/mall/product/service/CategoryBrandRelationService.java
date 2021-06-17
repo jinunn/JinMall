@@ -2,6 +2,7 @@ package com.jinunn.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jinunn.common.utils.PageUtils;
+import com.jinunn.mall.product.entity.BrandEntity;
 import com.jinunn.mall.product.entity.CategoryBrandRelationEntity;
 
 import java.util.List;
@@ -42,5 +43,12 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
      * @param name 品牌名称
      */
     void updateBrand(Long brandId, String name);
+
+    /**
+     * 获取分类关联的品牌列表
+     * @param catId 分类id
+     * @return 品牌列表
+     */
+    List<BrandEntity> getBrandsList(Long catId);
 }
 
