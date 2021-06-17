@@ -8,6 +8,7 @@ import com.jinunn.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.jinunn.mall.product.entity.AttrEntity;
 import com.jinunn.mall.product.service.AttrAttrgroupRelationService;
 import com.jinunn.mall.product.service.AttrService;
+import com.jinunn.mall.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,8 +110,15 @@ public class AttrGroupController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] attrGroupIds){
 		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
-
         return R.ok();
     }
 
+    /**
+     * 根据分类id 获取该分类下所有属性分组和属性分组关联的属性
+     */
+    @GetMapping("/{catelogId}/withAttr")
+    public R getAttrGroupWithAttr(@PathVariable("catelogId") Long catelogId){
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrsVoList =attrGroupService.getAttrGroupWithAttrBycatelogId(catelogId);
+        return R.ok().put("data",attrGroupWithAttrsVoList);
+    }
 }
