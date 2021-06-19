@@ -1,5 +1,6 @@
 package com.jinunn.mall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -176,6 +176,38 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Override
     public void saveBaseSupInfo(SpuInfoEntity spuInfoEntity) {
         baseMapper.insert(spuInfoEntity);
+    }
+
+    @Override
+    public PageUtils queryPageByCondition(Map<String, Object> params) {
+        LambdaQueryWrapper<SpuInfoEntity> wrapper = new QueryWrapper<SpuInfoEntity>().lambda();
+
+        String key = (String) params.get("key");
+        String status = (String) params.get("status");
+        String brandId = (String) params.get("brandId");
+        String catelogId = (String) params.get("catelogId");
+
+        if (StringUtils.isNotBlank(key)){
+            wrapper.and(wrappe->
+                    wrappe.eq(SpuInfoEntity::getId,key).or().like(SpuInfoEntity::getSpuName,key));
+        }
+
+        if (StringUtils.isNotBlank(status)){
+            wrapper.eq(SpuInfoEntity::getPublishStatus,status);
+        }
+
+        if (StringUtils.isNotBlank(brandId)){
+            wrapper.eq(SpuInfoEntity::getBrandId,brandId);
+        }
+
+        if (StringUtils.isNotBlank(catelogId)){
+            wrapper.eq(SpuInfoEntity::getCatalogId,catelogId);
+        }
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),wrapper
+        );
+        return new PageUtils(page);
     }
 
 }
