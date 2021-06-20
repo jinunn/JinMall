@@ -36,7 +36,6 @@ public class PurchaseController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = purchaseService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -77,8 +76,16 @@ public class PurchaseController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		purchaseService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
+    }
+
+    /**
+     * 查询未领取的采购单
+     */
+    @RequestMapping("unaccalimed/list")
+    public R unaccalimedList(@RequestParam Map<String, Object> params){
+        PageUtils page = purchaseService.queryPageUnaccalimed(params);
+        return R.ok().put("page", page);
     }
 
 }
