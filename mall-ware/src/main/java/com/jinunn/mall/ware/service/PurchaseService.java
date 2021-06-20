@@ -2,7 +2,9 @@ package com.jinunn.mall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jinunn.common.utils.PageUtils;
+import com.jinunn.common.utils.R;
 import com.jinunn.mall.ware.entity.PurchaseEntity;
+import com.jinunn.mall.ware.vo.MergeVo;
 
 import java.util.Map;
 
@@ -23,5 +25,7 @@ public interface PurchaseService extends IService<PurchaseEntity> {
      * @return 未领取的采购单
      */
     PageUtils queryPageUnaccalimed(Map<String, Object> params);
+
+    void mergePurchase(MergeVo mergeVo);
 }
 
