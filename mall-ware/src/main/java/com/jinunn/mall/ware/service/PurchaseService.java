@@ -5,6 +5,7 @@ import com.jinunn.common.utils.PageUtils;
 import com.jinunn.common.utils.R;
 import com.jinunn.mall.ware.entity.PurchaseEntity;
 import com.jinunn.mall.ware.vo.MergeVo;
+import com.jinunn.mall.ware.vo.PurchaseFinishVo;
 
 import java.util.List;
 import java.util.Map;
@@ -34,5 +35,11 @@ public interface PurchaseService extends IService<PurchaseEntity> {
      * @param ids 采购单id
      */
     void received(List<Long> ids);
+
+    /**
+     * 完成采购单
+     * @param purchaseFinishVo 确认采购完成还是未完成
+     */
+    void done(PurchaseFinishVo purchaseFinishVo);
 }
 

@@ -6,16 +6,17 @@ import java.util.List;
 
 /**
  * @author : JinDun
- * @date : 2021/6/20 15:35
+ * @date : 2021/6/20 18:26
  */
 @Data
-public class MergeVo {
+public class PurchaseFinishVo {
+
     /**
      * 采购单id
      */
-    private Long purchaseId;
+    private Long id;
     /**
-     * 和并项集合
+     * 采购项
      */
-    private List<Long> items;
+    private List<PurchaseItemDoneVo> items;
 }

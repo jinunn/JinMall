@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jinunn.mall.ware.vo.MergeVo;
+import com.jinunn.mall.ware.vo.PurchaseFinishVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,4 +105,12 @@ public class PurchaseController {
         return R.ok();
     }
 
+    /**
+     * 完成采购单
+     */
+    @PostMapping("/done")
+    public R finish(@RequestBody PurchaseFinishVo purchaseFinishVo){
+        purchaseService.done(purchaseFinishVo);
+        return R.ok();
+    }
 }
