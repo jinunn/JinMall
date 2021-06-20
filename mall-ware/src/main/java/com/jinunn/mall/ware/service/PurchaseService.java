@@ -6,6 +6,7 @@ import com.jinunn.common.utils.R;
 import com.jinunn.mall.ware.entity.PurchaseEntity;
 import com.jinunn.mall.ware.vo.MergeVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,5 +28,11 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     PageUtils queryPageUnaccalimed(Map<String, Object> params);
 
     void mergePurchase(MergeVo mergeVo);
+
+    /**
+     * 领取采购单
+     * @param ids 采购单id
+     */
+    void received(List<Long> ids);
 }
 

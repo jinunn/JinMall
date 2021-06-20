@@ -23,6 +23,7 @@ import com.jinunn.common.utils.Query;
 import com.jinunn.mall.ware.dao.PurchaseDao;
 import com.jinunn.mall.ware.entity.PurchaseEntity;
 import com.jinunn.mall.ware.service.PurchaseService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("purchaseService")
@@ -51,6 +52,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         return new PageUtils(page);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void mergePurchase(MergeVo mergeVo) {
         Long purchaseId = mergeVo.getPurchaseId();
@@ -69,5 +71,28 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             return purchaseDetailEntity;
         }).collect(Collectors.toList());
         purchaseDetailService.updateBatchById(purchaseDetailEntityList);
+    }
+
+    @Override
+    public void received(List<Long> ids) {
+        //1、确认需要领取的当前采购单是新建或者已分配的，同时改变这些采购的状态为已领取。
+        List<PurchaseEntity> purchaseEntityList = ids.stream()
+                .map(this::getById)
+                .filter(purchaseEntity -> purchaseEntity.getStatus().equals(WareConstant.PurchaseStatusEnum.CREATED.getCode()) ||
+                        purchaseEntity.getStatus().equals(WareConstant.PurchaseStatusEnum.ASSIGNED.getCode()))
+                .peek(purchaseEntity -> purchaseEntity.setStatus(WareConstant.PurchaseStatusEnum.RECEIVE.getCode()))
+                .collect(Collectors.toList());
+        //2、改变采购单的状态
+        this.updateBatchById(purchaseEntityList);
+
+        //3、改变采购项的状态
+        purchaseEntityList.forEach(purchaseEntity -> {
+            List<PurchaseDetailEntity> purchaseDetailEntityList =
+                    purchaseDetailService.listDetailByPurchaseId(purchaseEntity.getId());
+            List<PurchaseDetailEntity> purchaseDetailEntities = purchaseDetailEntityList.stream()
+                    .peek(purchaseDetailEntity -> purchaseDetailEntity.setStatus(WareConstant.PurchaseDetailStatusEnum.PURCHASING.getCode()))
+                    .collect(Collectors.toList());
+            purchaseDetailService.updateBatchById(purchaseDetailEntities);
+        });
     }
 }

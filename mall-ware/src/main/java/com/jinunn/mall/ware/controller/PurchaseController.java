@@ -1,6 +1,7 @@
 package com.jinunn.mall.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.jinunn.mall.ware.vo.MergeVo;
@@ -91,6 +92,15 @@ public class PurchaseController {
     @PostMapping("merge")
     public R merge(@RequestBody MergeVo mergeVo){
         purchaseService.mergePurchase(mergeVo);
+        return R.ok();
+    }
+
+    /**
+     * 领取采购单
+     */
+    @PostMapping("/received")
+    public R received(@RequestBody List<Long> ids){
+        purchaseService.received(ids);
         return R.ok();
     }
 
