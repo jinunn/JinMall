@@ -1,14 +1,11 @@
 package com.jinunn.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jinunn.mall.product.entity.ProductAttrValueEntity;
 import com.jinunn.mall.product.service.ProductAttrValueService;
@@ -78,6 +75,25 @@ public class ProductAttrValueController {
     public R delete(@RequestBody Long[] ids){
 		productAttrValueService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 根据skuId 查询规格参数列表
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R listforspu(@PathVariable("spuId") Long spuId){
+        List<ProductAttrValueEntity> data = productAttrValueService.listforspu(spuId);
+        return R.ok().put("data",data);
+    }
+
+    /**
+     * 修改规格参数
+     */
+    @PostMapping("update/{supId}")
+    public R updateSpuAttr(@PathVariable("supId") Long supId,
+                           @RequestBody List<ProductAttrValueEntity> productAttrValueEntityList){
+        productAttrValueService.updateSpuAttr(supId,productAttrValueEntityList);
         return R.ok();
     }
 

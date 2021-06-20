@@ -7,11 +7,7 @@ import com.jinunn.common.constant.ProductConstant;
 import com.jinunn.mall.product.vo.AttrRespVo;
 import com.jinunn.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jinunn.mall.product.entity.AttrEntity;
 import com.jinunn.mall.product.service.AttrService;
@@ -89,7 +85,6 @@ public class AttrController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] attrIds){
 		attrService.removeByIds(Arrays.asList(attrIds));
-
         return R.ok();
     }
 
