@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: mall-ware
+  cloud:
+    nacos:
+      config:
+        server-addr: 47.110.138.50:8848
+      discovery:
+        server-addr: 47.110.138.50:8848
