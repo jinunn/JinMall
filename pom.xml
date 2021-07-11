@@ -34,6 +34,7 @@
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <swagger.version>3.0.0</swagger.version>
         <knife4j.version>3.0.2</knife4j.version>
+        <elasticsearch.version>7.4.2</elasticsearch.version>
     </properties>
 
     <!--配置dependencyManagement锁定依赖的版本-->
@@ -71,6 +72,11 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -75,6 +75,12 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
 
+        <!--es-->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
