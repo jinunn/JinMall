@@ -1,14 +1,12 @@
 package com.jinunn.mall.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.jinunn.mall.ware.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jinunn.mall.ware.entity.WareSkuEntity;
 import com.jinunn.mall.ware.service.WareSkuService;
@@ -80,4 +78,11 @@ public class WareSkuController {
         return R.ok();
     }
 
+    /**
+     * 查询商品是否有库存
+     */
+    @PostMapping("hasStock")
+    public List<SkuHasStockVo> getSkuHasStock(@RequestBody List<Long> skuIds){
+        return wareSkuService.getSkuHasStock(skuIds);
+    }
 }

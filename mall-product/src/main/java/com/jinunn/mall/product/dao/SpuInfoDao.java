@@ -1,8 +1,10 @@
 package com.jinunn.mall.product.dao;
 
+import com.jinunn.common.constant.ProductConstant;
 import com.jinunn.mall.product.entity.SpuInfoEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * spu信息
@@ -13,5 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SpuInfoDao extends BaseMapper<SpuInfoEntity> {
-	
+
+
+    /**
+     *  商品上架，修改状态
+     * @param spuId 商品id
+     * @param code 上架
+     */
+    void upSpuStatus(@Param("spuId") Long spuId, @Param("code") Integer code);
 }

@@ -1,6 +1,7 @@
 package com.jinunn.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jinunn.common.constant.ProductConstant;
 import com.jinunn.common.utils.PageUtils;
 import com.jinunn.mall.product.entity.BrandEntity;
 

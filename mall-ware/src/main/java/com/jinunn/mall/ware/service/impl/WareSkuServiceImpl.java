@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.jinunn.common.utils.R;
 import com.jinunn.mall.ware.feign.ProductFeignService;
+import com.jinunn.mall.ware.vo.SkuHasStockVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -76,5 +79,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             this.update(new LambdaUpdateWrapper<WareSkuEntity>()
                     .eq(WareSkuEntity::getWareId,wareId).eq(WareSkuEntity::getSkuId,skuId));
         }
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds) {
+        List<SkuHasStockVo> collect = skuIds.stream().map(skuid -> {
+            SkuHasStockVo skuHasStockVo = new SkuHasStockVo();
+            //查询当前sku的总库存量 SELECT SUM(stock-stock_locked) AS count  FROM wms_ware_sku WHERE sku_id = 1
+            long count = baseMapper.getSkuStock(skuid);
+            skuHasStockVo.setSkuId(skuid);
+            skuHasStockVo.setHasStock(count>0);
+            return skuHasStockVo;
+        }).collect(Collectors.toList());
+        return null;
     }
 }

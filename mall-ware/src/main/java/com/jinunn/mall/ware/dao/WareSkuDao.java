@@ -3,6 +3,7 @@ package com.jinunn.mall.ware.dao;
 import com.jinunn.mall.ware.entity.WareSkuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 商品库存
@@ -13,5 +14,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
-	
+
+    /**
+     * 查询当前sku的总库存量
+     * @param skuid 商品id
+     * @return 查询当前sku的总库存量
+     */
+    long getSkuStock(@Param("skuid") Long skuid);
 }

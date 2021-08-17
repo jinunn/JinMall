@@ -37,5 +37,12 @@ public interface AttrService extends IService<AttrEntity> {
      * @return 获取本分类 属性分组里面还没有关联的其他基本属性列表
      */
     PageUtils getattrNoRelation(Map<String, Object> params, Long attrgroupId);
+
+    /**
+     * 在指定的所有属性集合里面，查询出可以被检索的属性
+     * @param attrIds 属性id
+     * @return 可被检索的属性
+     */
+    List<Long> selectSearchAttrs(List<Long> attrIds);
 }
 
