@@ -5,7 +5,7 @@ spring:
     nacos:
       config:
         #配置中心地址
-        server-addr: 47.110.138.50:8848
+        server-addr: 127.0.0.1:8848
         #命名空间的唯一id
         namespace: 5ece42c4-5520-4faf-9e71-bc5565c3f1c1
         #配置分组
