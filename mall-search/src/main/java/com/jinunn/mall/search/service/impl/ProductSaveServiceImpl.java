@@ -49,7 +49,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
             e.printStackTrace();
             return false;
         }
-        //判断是否出现错误
+        //判断是否出现错误,false没有出现错误，true又有错误
         return bulk.hasFailures();
     }
 }

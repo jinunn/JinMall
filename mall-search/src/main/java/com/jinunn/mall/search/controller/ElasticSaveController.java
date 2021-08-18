@@ -26,6 +26,6 @@ public class ElasticSaveController {
     @PostMapping("/product")
     public R productStatusUp(@RequestBody List<SkuEsModel> skuEsModels) {
         boolean flag = productSaveService.productStatusUp(skuEsModels);
-        return flag ? R.ok() : R.error(BizCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),BizCodeEnum.PRODUCT_UP_EXCEPTION.getMsg());
+        return !flag ? R.ok() : R.error(BizCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),BizCodeEnum.PRODUCT_UP_EXCEPTION.getMsg());
     }
 }
