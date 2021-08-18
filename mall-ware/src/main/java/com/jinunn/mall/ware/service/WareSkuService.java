@@ -23,7 +23,7 @@ public interface WareSkuService extends IService<WareSkuEntity> {
 
     /**
      * 查询商品是否有库存
-     * @param skuIds 商品id
+     * @param skuIds skuId
      * @return 商品库存信息
      */
     List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
